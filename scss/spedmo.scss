@@ -1,0 +1,37 @@
+.start-view
+{	
+	background : rgba(0, 0, 0, 0) url("../img/clouds.jpg") no-repeat scroll center top / cover; 
+
+	.top-content
+  {
+    height: 66%;
+
+		.app-copy
+		{
+			text-align: center;
+			padding-top: 13vh;
+		}
+
+	}
+	
+	.logo 
+	{
+	    height: auto;
+	    max-width: 100%;
+	    width: 70%;	
+	}
+
+	.bottom-content
+  {
+    height: 34%;
+
+		.facebook-sign-in
+		{
+			border-radius: 4px;
+			font-weight: 500;
+			color: $auth-small-btn-color;
+			background-color: $facebook-blue;
+			border-color: darken($facebook-blue, 2);
+		}
+	}
+}
