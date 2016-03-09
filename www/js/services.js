@@ -48,8 +48,27 @@ angular.module('starter.services', [])
 			ref.addEventListener('loadstart', function(event) { 			
 				if (event.url.indexOf('signOut')!=-1) {
 					ref.close();
+					
+				// this is a bit of a hacky way to send browser events to the device using inappbrowser page events.	
+				} else if (event.url.indexOf('inAppBrowser.pg')!=-1) {					
+					var action = /action=([^&]+)/.exec(event.url)[1];
+					var url = /url=([^&]+)/.exec(event.url)[1];
+					
+					facebookConnectPlugin.showDialog({
+					    method: action,
+					    link: url			   
+					}, function() {
+						// success, do nothing...
+					}, function() {
+						if (action=='send') {
+					        navigator.notification.confirm('Install Facebook Messenger to your phone to this feature.', function(buttonIndex) {
+					        	// do nothing
+					        }, 'Alert', [ "OK"]);
+						}						
+					});
 				}
 			});
+		
 			
 			$localstorage.set('facebookToken', accessToken);
 		}	
