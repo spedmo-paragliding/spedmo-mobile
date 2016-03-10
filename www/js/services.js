@@ -52,18 +52,36 @@ angular.module('starter.services', [])
 				// this is a bit of a hacky way to send browser events to the device using inappbrowser page events.	
 				} else if (event.url.indexOf('inAppBrowser.pg')!=-1) {					
 					var action = /action=([^&]+)/.exec(event.url)[1];
-					var url = /url=([^&]+)/.exec(event.url)[1];
+										
+					var facebookOptions = {
+						method: action,					
+					}; 	
+
+					// if we have url param, add it to facebook request
+					try {
+					    var url = /url=([^&]+)/.exec(event.url)[1];					    
+					    facebookOptions.link=url;
+					}
+					catch(err) {
+					    console.log('aint got no url.');
+					}
 					
-					facebookConnectPlugin.showDialog({
-					    method: action,
-					    link: url			   
-					}, function() {
+					// if we have a who param, add it to facebook request
+					try {
+					    var who = /who=([^&]+)/.exec(event.url)[1];					    
+					    facebookOptions.to=who;
+					}
+					catch(err) {
+					    console.log('aint got no who.');
+					}
+					
+					facebookConnectPlugin.showDialog(facebookOptions, function() {
 						// success, do nothing...
 					}, function() {
 						if (action=='send') {
-					        navigator.notification.confirm('Install Facebook Messenger to your phone to this feature.', function(buttonIndex) {
+					        navigator.notification.confirm('Install Facebook Messenger to use this feature.', function(buttonIndex) {
 					        	// do nothing
-					        }, 'Alert', [ "OK"]);
+					        }, 'Spedmo', [ "OK"]);
 						}						
 					});
 				}
