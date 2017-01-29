@@ -11,9 +11,9 @@
 		localStorage['latitude'] = position.coords.latitude;
 		localStorage['longitude'] = position.coords.longitude;
 		
-		if (localStorage['facebookToken'].length != 0) {
+		if (localStorage['uuid'].length != 0) {
 			var url = "http://www.spedmo.com/geoNotify.pg?lat=" + position.coords.latitude + "&lon=" + position.coords.longitude + "&pushToken=" + localStorage['pushToken']
-					+ "&at=" + localStorage['facebookToken'] + "&device=" + device.platform;
+					+ "&uuid=" + localStorage['uuid'] + "&device=" + device.platform;
 
 			// fire off a request into the ether...
 			$.get(url);
@@ -44,7 +44,7 @@
 
 document.addEventListener("deviceready", function() {
 	getCurrentLocation();
-	setInterval(getCurrentLocation, 30*60*1000);
+	setInterval(getCurrentLocation, 5*60*1000);
 }, false);
 
 

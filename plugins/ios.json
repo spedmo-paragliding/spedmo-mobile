@@ -30,9 +30,6 @@
         "cordova-plugin-globalization": {
             "PACKAGE_NAME": "com.spedmo.mobile.paragliding"
         },
-        "cordova-plugin-inappbrowser": {
-            "PACKAGE_NAME": "com.spedmo.mobile.paragliding"
-        },
         "cordova-plugin-splashscreen": {
             "PACKAGE_NAME": "com.spedmo.mobile.paragliding"
         },
@@ -46,6 +43,9 @@
             "PACKAGE_NAME": "com.spedmo.mobile.paragliding"
         },
         "phonegap-plugin-push": {
+            "PACKAGE_NAME": "com.spedmo.mobile.paragliding"
+        },
+        "cordova-plugin-inappbrowser": {
             "PACKAGE_NAME": "com.spedmo.mobile.paragliding"
         }
     },

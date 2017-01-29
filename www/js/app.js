@@ -1,6 +1,5 @@
 // Spedmo Ionic Starter App
 
-
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
 .run(function($ionicPlatform, $localstorage, $ionicPopup, SpedmoService) {
@@ -41,7 +40,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
                     // do nothing
                     break;
                 case 2:
-                	SpedmoService.loadSpedmo($localstorage.get('facebookToken'), data.additionalData.url);
+                	SpedmoService.loadSpedmo($localstorage.get('uuid'), data.additionalData.url);
                     break;
             }
         }, data.title, [ "Dismiss", "Show" ]);
@@ -58,13 +57,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 .config(function($stateProvider, $urlRouterProvider) {
 
   $stateProvider
-  
 	.state('start', {
 		url : '/start',
 		templateUrl : "views/start.html",
 		controller : 'StartCtrl'
+	})
+	.state('webapp', {
+		url : '/webapp',
+		templateUrl : "views/blank.html",
+		controller : 'WebAppCtrl'
 	});
-
-  $urlRouterProvider.otherwise('/start');
+    
+  	//if (typeof window.localStorage['uuid'] !== 'undefined'){	
+  		$urlRouterProvider.otherwise('/webapp');
+  	//} else {
+  	//	$urlRouterProvider.otherwise('/start');	  
+  	//}
 
 });

@@ -33,18 +33,29 @@ angular.module('starter.services', [])
   };
 })
 
-.service('SpedmoService', function($localstorage) {
+.service('SpedmoService', function($localstorage, $http) {
 	
 	return {
-		loadSpedmo : function(accessToken, redirectUrl) {	
+		getUUID : function(accessToken) {			
+			return $http.get('http://www.spedmo.com/json/getUUID.pg?accessToken=' + accessToken);
+		},
+		loadSpedmo : function(uuid, redirectUrl) {	
+			
+			var appDevice = 'unknown';
+			if (ionic.Platform.isIOS()) {
+				appDevice = 'ios';
+			} else if (ionic.Platform.isAndroid()) {
+				appDevice = 'android';
+			}
+			
 			//alert('lat:' + $localstorage.get('latitude') + " lon:" +$localstorage.get('longitude') );
-			var url = 'http://www.spedmo.com/facebookSignIn.pg?key=' + accessToken + "&device=" + device.platform + "&pushToken=" + $localstorage.get('pushToken') + "&lat=" + $localstorage.get('latitude') + "&lon=" + $localstorage.get('longitude');
+			var url = 'http://www.spedmo.com/uuidSignIn.pg?uuid=' + uuid + "&device=" + appDevice + "&pushToken=" + $localstorage.get('pushToken') + "&lat=" + $localstorage.get('latitude') + "&lon=" + $localstorage.get('longitude');
 			
 			if (redirectUrl!=null) {
 				url = url + "&redirect=" + encodeURIComponent(redirectUrl)
 			}
 			
-			var ref = window.open(url , '_blank', 'location=no,zoom=no,clearcache=yes,clearsessioncache=yes'); 
+			var ref = window.open(url , '_blank', 'location=no,zoom=no,clearcache=yes,clearsessioncache=yes,toolbar=no');			
 			ref.addEventListener('loadstart', function(event) { 			
 				if (event.url.indexOf('signOut')!=-1) {
 					ref.close();
@@ -85,10 +96,7 @@ angular.module('starter.services', [])
 						}						
 					});
 				}
-			});
-		
-			
-			$localstorage.set('facebookToken', accessToken);
+			});						
 		}	
 	}
 });

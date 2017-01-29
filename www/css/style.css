@@ -1,1 +1,32 @@
 /* Empty. Add your own CSS if you like */
+
+.start-view {
+	background: transparent url("../img/clouds.jpg") no-repeat scroll center top/cover;
+}
+
+.start-view .top-content {
+	height: 66%;
+}
+
+.start-view .top-content .app-copy {
+	text-align: center;
+	padding-top: 13vh;
+}
+
+.start-view .logo {
+	height: auto;
+	max-width: 100%;
+	width: 70%;
+}
+
+.start-view .bottom-content {
+	height: 34%;
+}
+
+.start-view .bottom-content .facebook-sign-in {
+	border-radius: 4px;
+	font-weight: 500;
+	color: #FFF;
+	background-color: #294886;
+	border-color: #27447e;
+}

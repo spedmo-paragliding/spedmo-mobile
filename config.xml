@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.spedmo.mobile.paragliding" version="1.0.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.spedmo.mobile.paragliding" version="1.0.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>spedmo</name>
   <description>paragliding information and collaboration</description>
   <author email="direct.contact@spedmo.com" href="www.spedmo.com">spedmo</author>
   <content src="index.html"/>
-  <access origin="*"/>
+  <access origin='*' allows-arbitrary-loads-in-media='true' allows-arbitrary-loads-in-web-content='true' allows-local-networking='true' />
+  <allow-navigation href="*" />  
   <preference name="target-device" value="handset"/>
   <preference name="orientation" value="portrait"/>
   <preference name="webviewbounce" value="false"/>

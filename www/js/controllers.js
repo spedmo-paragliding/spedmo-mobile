@@ -1,5 +1,22 @@
 angular.module('starter.controllers', [])
 
+.controller('WebAppCtrl', function($scope, $state, $q, UserService, $ionicLoading, $ionicPlatform, SpedmoService, $localstorage) {
+
+	$ionicPlatform.registerBackButtonAction(function(event) {
+		event.preventDefault();
+	}, 100);
+	
+	$scope.$on('$ionicView.enter', function(){
+		// this is called if the user has a uuid stored from a previous log-in...
+		SpedmoService.loadSpedmo($localstorage.get('uuid'), null);		
+	});
+	
+	$scope.facebookSignIn = function() {
+		SpedmoService.loadSpedmo($localstorage.get('uuid'), null);
+	}
+		
+})
+
 .controller('StartCtrl', function($scope, $state, $q, UserService, $ionicLoading, $ionicPlatform, SpedmoService, $localstorage) {
 	
 	// This is the success callback from the login method
@@ -10,25 +27,11 @@ angular.module('starter.controllers', [])
 		}
 
 		var authResponse = response.authResponse;
-		
-		getFacebookProfileInfo(authResponse).then(function(profileInfo) {
-
-			UserService.setUser({
-				authResponse : authResponse,
-				userID : profileInfo.id,
-				name : profileInfo.name,
-				email : profileInfo.email,
-				picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
-			});
-
-			$ionicLoading.hide();
-					
-			SpedmoService.loadSpedmo(authResponse.accessToken, null);
-
-		}, function(fail) {
-			// fail get profile info
-			console.log('profile info fail', fail);
-		});
+				
+		SpedmoService.getUUID(user.authResponse.accessToken).success(function(data){
+			$localstorage.set('uuid', data);
+			SpedmoService.loadSpedmo(data, null);	
+		});	
 	};
 
 	// This is the fail callback from the login method
@@ -66,28 +69,10 @@ angular.module('starter.controllers', [])
 
 				// check if we have our user saved
 				var user = UserService.getUser('facebook');
-
-				if (!user.userID) {
-					getFacebookProfileInfo(success.authResponse).then(function(profileInfo) {
-						
-						UserService.setUser({
-							authResponse : success.authResponse,
-							userID : profileInfo.id,
-							name : profileInfo.name,
-							email : profileInfo.email,
-							picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
-						});
-
-						SpedmoService.loadSpedmo(user.authResponse.accessToken, null);
-
-					}, function(fail) {
-						// fail get profile info
-						console.log('profile info fail', fail);
-					});
-				} else {
-					SpedmoService.loadSpedmo(user.authResponse.accessToken, null);
-				}
-
+				SpedmoService.getUUID(user.authResponse.accessToken).success(function(data){
+					$localstorage.set('uuid', data);
+					SpedmoService.loadSpedmo(data, null);	
+				});							
 			} else {
 				// if (success.status === 'not_authorized') the user is logged
 				// in to Facebook, but has not authenticated your app
@@ -106,7 +91,6 @@ angular.module('starter.controllers', [])
 			}
 		});
 	};
-	
 	
 	$ionicPlatform.registerBackButtonAction(function(event) {
 		event.preventDefault();
